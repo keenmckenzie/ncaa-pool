@@ -1,2 +1,3 @@
-# ncaa-pool
-NCAA Bracket Challenge
+NCAA Wrestling Bracket Challenge App
+
+App to organize a group ncaa wrestling pool
