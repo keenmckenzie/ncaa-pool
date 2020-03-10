@@ -25,7 +25,7 @@ def get_userId(user):
 
 def post_picks(userId, match, pick):
     cur = db.connection.cursor()
-    sql = ('insert into picks'
+    sql = ('insert into picks (user_id, match_id, pick) '
            'values (' + str(userId) + ', ' + str(match) + ', \'' + pick + '\')')
     cur.execute(sql)
     db.connection.commit()
