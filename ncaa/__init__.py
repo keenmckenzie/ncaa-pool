@@ -1,10 +1,14 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from ncaa import api
 from flask_mysqldb import MySQL
 from db_config import host, user, password, name
 
 
+
 app = Flask(__name__)
+
+cors=CORS(app, resources={r"/*": {"origins": ["*"]}})
 
 app.config['MYSQL_HOST'] = host
 app.config['MYSQL_USER'] = user
