@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 
 
-
 const LoginForm = () => {
   const [ user, setUser ] = useState({
     username: '',
@@ -15,7 +14,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.
+    // axios. // need to create login request
   }
 
   <form onSubmit={handleSubmit}>
