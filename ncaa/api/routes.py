@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, jsonify
-from ncaa import db
-from .models import get_picks, get_userId, post_picks, get_matches, matches_with_picks, User, verify_user
+from .models import get_picks, get_userId, post_picks, get_matches, matches_with_picks, User, verify_user, Match
+
 
 mod = Blueprint('api', __name__)
 
@@ -9,6 +9,9 @@ mod = Blueprint('api', __name__)
 def test():
     return {"result": "test"}
 
+##
+## Pick Routes
+##
 
 @mod.route('/picks', methods=['GET', 'POST'])
 def picks():
@@ -36,6 +39,11 @@ def matches():
     results = get_matches()
     return jsonify(results)
 
+
+##
+## User Routes
+##
+
 @mod.route('/add-user', methods=['POST'])
 def add_user():
     user_name = request.args.get('userName')
@@ -57,4 +65,26 @@ def userId():
     userId = get_userId(user)
     return {"id": str(userId)}
 
+
+##
+## Match Routes
+##
+
+@mod.route('/add-match', methods=['POST'])
+def add_match():
+    weight = request.args.get('weight')
+    match_round = request.args.get('round')
+    wrestler_1 = request.args.get('wrestler_1')
+    wrestler_2 = request.args.get('wrestler_2')
+    match = Match(weight,match_round,wrestler_1,wrestler_2)
+    commit = match.post_match()
+    return commit
+
+@mod.route('/update-winner', methods=['POST'])
+def update_winner():
+    winner = request.args.get('winner')
+    match_id = request.args.get('id')
+    match = Match()
+    commit = match.update_winner(winner, match_id)
+    return commit
 

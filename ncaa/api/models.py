@@ -22,6 +22,62 @@ class User:
         except:
             return {"result": "failure"}
 
+class Match:
+    def __init__(self, weight='null', round='null', wrestler_1='null', wrestler_2='null'):
+        self.weight = weight
+        self.round = round
+        self.wrestler_1 = wrestler_1
+        self.wrestler_2 = wrestler_2
+
+    def post_match(self):
+        cur = db.connection.cursor()
+        sql = ('insert into matches (weight, round, wrestler_1, wrestler_2) '
+               'values ( %(weight)s, %(round)s, %(wrestler_1)s, %(wrestler_2)s)')
+        data = {
+            'weight': self.weight,
+            'round': self.round,
+            'wrestler_1': self.wrestler_1,
+            'wrestler_2': self.wrestler_2
+        }
+        cur.execute(sql, data)
+        try:
+            db.connection.commit()
+            return {'result': 'success'}
+        except:
+            return {'result': 'failure'}
+
+    def update_wrestlers(self, wrestler_1, wrestler_2, match_id):
+        cur = db.connection.cursor()
+        sql = ('update matches '
+               'set wrestler_1 = %(wrestler_1)s, wrestler_2 = %(wrestler_2)s '
+               'where id = %(match_id)s')
+        data = {
+            'wrestler_1': wrestler_1,
+            'wrestler_2': wrestler_2,
+            'match_id': match_id
+        }
+        cur.execute(sql, data)
+        try:
+            db.connection.commit()
+            return {'result': 'success'}
+        except:
+            return {'result': 'failure'}
+
+    def update_winner(self, winner, match_id):
+        cur = db.connection.cursor()
+        sql = ('update matches '
+               'set winner = %(winner)s '
+               'where id = %(match_id)s')
+        data = {
+            'winner': winner,
+            'match_id': match_id
+        }
+        cur.execute(sql, data)
+        try:
+            db.connection.commit()
+            return {'result': 'success'}
+        except:
+            return {'result': 'failure'}
 
 
 def hash_password(password):
