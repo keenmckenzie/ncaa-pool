@@ -1,36 +1,37 @@
 import React, {useState} from 'react';
+import { Form } from './Form';
+import { useForm } from '../hooks/useForm';
+import { BASE_URL } from '../constants/Url';
 import axios from 'axios';
 
 
 const RegistrationForm = () => {
-  const [ user, setUser ] = useState({
+  const [ user, handleChange, setUser ] = useForm({
     username: '',
     password: ''
-  });
-
-  const handleChange = (e) => {
-    setUser({...user, [e.target.name]: e.target.value})
-    console.log(user)
-  }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    axios.post(`https://sheltered-shelf-78103.herokuapp.com/add-user?userName=${user.username}&password=${user.password}`, {
+    axios.post(`${BASE_URL}/add-user?userName=${user.username}&password=${user.password}`, {
       username: user.username,
       password: user.password
     })
     .then(response => {console.log(response)})
     .catch(err => {console.log(err)})
+
+    setUser({
+      username: '',
+      password: ''
+    })
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="login">Username: </label>
-      <input type='text' placeholder="Username" name='username' onChange={handleChange} value={user.username}/>
-      <label htmlFor="login">Password: </label>
-      <input type='text' placeholder="Password" name='password' onChange={handleChange} value={user.password}/>
-      <button type="submit">Register</button>
-    </form>
+    <Form 
+      user={user} 
+      onChange={handleChange} 
+      onSubmit={handleSubmit}
+    />
     )
 }
 
