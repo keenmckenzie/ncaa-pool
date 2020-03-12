@@ -4,6 +4,8 @@ import Axios from 'axios';
 import { BASE_URL } from '../constants/Url';
 
 // need a form for admin to enter a list of matches
+//matchlist for dummy data until get request for list is set up
+export const matchList = []
 
 const MatchForm = () => {
   const [entry, handleChange, setEntry ] = useForm({
@@ -15,12 +17,7 @@ const MatchForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post(`${BASE_URL}/add-match`, {
-      weight: entry.weight,
-      round: entry.round,
-      wrestler1: entry.wrestler1,
-      wrestler2: entry.wrestler2
-    })
+    Axios.post(`${BASE_URL}/add-match`, entry)
     .then(res => console.log(res))
     .catch(err => console.log(err))
 
@@ -30,6 +27,9 @@ const MatchForm = () => {
       wrestler1: '',
       wrestler2: ''
     })
+
+    matchList.push(entry)
+    console.log(matchList)
   }
 
   return (
