@@ -100,17 +100,17 @@ def verify_password(stored_password, provided_password):
     return pwdhash == stored_password
 
 def get_picks(user):
-    userId = get_userId(user)
+    userId = {'userId':user}
     cur = db.connection.cursor()
     query = ('select * '
              'from picks '
-             'where user_id = ' + str(userId))
-    cur.execute(query)
+             'where user_id = %(userId)s ')
+    cur.execute(query, userId)
     results = cur.fetchall()
     return results
 
 def matches_with_picks(user):
-    userId = {'userId':get_userId(user)}
+    userId = {'userId':user}
     cur = db.connection.cursor()
     query = ('select match_id, pick, round, user_id, weight, wrestler_1, wrestler_2, winner '
              'from picks '

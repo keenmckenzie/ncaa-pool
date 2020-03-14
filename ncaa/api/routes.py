@@ -32,7 +32,8 @@ def picks():
 
 @mod.route('/match-picks')
 def match_picks():
-    user = request.args.get('user')
+    json = request.get_json()
+    user = json['user']
     results = matches_with_picks(user)
     return jsonify(results)
 
@@ -61,7 +62,7 @@ def auth_user():
 @mod.route('/userId')
 def userId():
     json = request.get_json
-    user = json['user']
+    user = json['userName']
     userId = get_userId(user)
     return {"id": str(userId)}
 
