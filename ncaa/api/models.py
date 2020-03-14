@@ -150,11 +150,16 @@ def verify_user(user, password):
         return {"auth":authorized}
 
 
-def post_picks(userId, match, pick):
+def post_picks(user_id, match, pick):
+    data = {
+        'userId': user_id,
+        'match': match,
+        'pick': pick
+    }
     cur = db.connection.cursor()
     sql = ('insert into picks (user_id, match_id, pick) '
-           'values (' + str(userId) + ', ' + str(match) + ', \'' + pick + '\')')
-    cur.execute(sql)
+           'values (%(userId)s, %(match)s, %(pick)s )')
+    cur.execute(sql, data)
     db.connection.commit()
 
 def get_matches():

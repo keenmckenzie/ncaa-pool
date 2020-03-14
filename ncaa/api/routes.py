@@ -23,10 +23,9 @@ def picks():
     else:
         json = request.get_json()
         user = json['user']
-        userId = get_userId(user)
         match_id = json['match']
         pick = json['pick']
-        post_picks(userId, match_id, pick)
+        post_picks(user, match_id, pick)
         result = get_picks(user)
         return jsonify(result)
 
@@ -48,8 +47,9 @@ def add_user():
     user_name = json['userName']
     password = json['password']
     user = User(user_name, password)
-    commit = user.post_user()
-    return commit
+    user.post_user()
+    auth = verify_user(user_name, password)
+    return auth
 
 @mod.route('/authorize-user', methods=['GET'])
 def auth_user():
@@ -61,7 +61,7 @@ def auth_user():
 
 @mod.route('/userId')
 def userId():
-    json = request.get_json
+    json = request.get_json()
     user = json['userName']
     userId = get_userId(user)
     return {"id": str(userId)}
