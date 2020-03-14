@@ -1,7 +1,5 @@
 import React from 'react';
 
-
-
 export const Match = ({match}) => {
   return (
     <div style={{display: 'inline-block', padding: '2%'}}>

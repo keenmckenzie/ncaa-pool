@@ -1,7 +1,8 @@
-import React, {useState} from 'react';
-import { Form } from './Form';
-import { useForm } from '../hooks/useForm';
-import { BASE_URL } from '../constants/Url';
+import React from 'react';
+import { Form } from '../Form';
+import { useForm } from '../../hooks/useForm';
+import { BASE_URL } from '../../Constants';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 
 
@@ -27,12 +28,15 @@ const RegistrationForm = () => {
   }
 
   return (
-    <Form 
-      user={user} 
-      onChange={handleChange} 
-      onSubmit={handleSubmit}
-    />
-    )
+    <>
+      <Form 
+        user={user} 
+        onChange={handleChange} 
+        onSubmit={handleSubmit}
+      />
+      <NavLink to='/login'>Already registered? Log in.</NavLink>
+    </>
+  )
 }
 
 export default RegistrationForm

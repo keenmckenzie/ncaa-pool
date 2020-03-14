@@ -5,6 +5,7 @@ export const useForm = (initialValue) => {
   
   const handleChange = (e) => {
     setUser({...user, [e.target.name]: e.target.value})
+    console.log(e.target)
     console.log(user)
   }
 

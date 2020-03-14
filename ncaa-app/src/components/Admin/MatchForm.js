@@ -1,15 +1,13 @@
 import React from 'react';
-import {useForm} from '../hooks/useForm';
+import {useForm} from '../../hooks/useForm';
 import Axios from 'axios';
-import { BASE_URL } from '../constants/Url';
+import { BASE_URL, weightClasses } from '../../Constants';
 
-// need a form for admin to enter a list of matches
-//matchlist for dummy data until get request for list is set up
-export const matchList = []
+// Form for admin to enter matches
 
-const MatchForm = () => {
+export const MatchForm = ({setMatchList, matchList}) => {
   const [entry, handleChange, setEntry ] = useForm({
-    weight: '',
+    weight: '125',
     round: '',
     wrestler1: '',
     wrestler2: ''
@@ -28,23 +26,27 @@ const MatchForm = () => {
       wrestler2: ''
     })
 
-    matchList.push(entry)
-    console.log(matchList)
+    console.log(entry)
+    setMatchList([...matchList, entry])
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label>Weight Class</label>
-        <input onChange={handleChange} placeholder="175" value={entry.weight} name="weight" type="text"></input>
+        <label htmlFor="weight">Weight Class</label>
+        <select name="weight" value={entry.weight} onChange={handleChange}>
+          {weightClasses.map(weight => 
+          <option value={`${weight}`}>{weight}</option>
+          )}
+        </select>
 
-        <label>Round</label>
+        <label htmlFor="round">Round</label>
         <input onChange={handleChange} placeholder="1" value={entry.round} name="round" type="text"></input>
 
-        <label>Wrestler 1: </label>
+        <label htmlFor="wrestler1">Wrestler 1: </label>
         <input onChange={handleChange} placeholder="Charlie" value={entry.wrestler1} name="wrestler1" type="text"></input>
 
-        <label>Wrestler 2: </label>
+        <label htmlFor="wrestler2">Wrestler 2: </label>
         <input onChange={handleChange} placeholder="Keenan" value={entry.wrestler2} name="wrestler2" type="text"></input>
 
         <button type="submit">Submit</button>
@@ -52,5 +54,3 @@ const MatchForm = () => {
     </div>
   )
 }
-
-export default MatchForm;
