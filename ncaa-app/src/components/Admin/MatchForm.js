@@ -20,7 +20,7 @@ export const MatchForm = ({setMatchList, matchList}) => {
     .catch(err => console.log(err))
 
     setEntry({
-      weight: '',
+      weight: '125',
       round: '',
       wrestler1: '',
       wrestler2: ''

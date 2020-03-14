@@ -1,19 +1,16 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { Dashboard } from './components/Admin/Dashboard';
+import { DashboardNew } from './components/Admin/DashboardNew';
 import { NavBar } from './components/Nav'
 import LoginForm from './components/Login/LoginForm';
 import RegistrationForm from './components/Login/Registration';
 
 function App() {
-
-
-
   return (
     <div className="App">
       <NavBar />
       <Route path="/dashboard">
-        <Dashboard />
+        <DashboardNew />
       </Route>
       <Route exact path="/">
         <RegistrationForm />
