@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BASE_URL, weightClasses } from '../../Constants'
-import { MatchForm } from './MatchForm';
-import { MatchList } from './MatchList';
+import { BASE_URL, weightClasses } from '../Constants'
+import { MatchForm } from '../components/Admin/MatchForm';
+import { MatchList } from '../components/Admin/MatchList';
 
 // match list needs to retrieve the matches from the backend, and display a list of matchups
     // matchups will be grouped by conference
@@ -16,20 +15,22 @@ export const DashboardNew = () => {
   const [ picks, setPicks ] = useState([])
   
   useEffect(() => {
-    //to retrieve user pics - need to be moved to a user dashboard
     axios
     .get(`${BASE_URL}/picks?user=keenan.mckenzie`)
     .then(res => console.log(res))
-
-    axios
-    .get(`${BASE_URL}/matches`)
-    .then(res => setMatchList(res.data))
     }, [])
+
+    console.log(weightClasses)
 
   return (
     <>
-      <MatchForm setMatchList={setMatchList} matchList={matchList} />
-      <MatchList matchList={matchList} />
+    <MatchForm setMatchList={setMatchList} matchList={matchList} />
+    {weightClasses.map(weight => 
+      <div key={weight}>
+        <MatchList matchList={matchList} weightClass={weight} />
+      </div>
+      )}
     </>
   )
 }
+

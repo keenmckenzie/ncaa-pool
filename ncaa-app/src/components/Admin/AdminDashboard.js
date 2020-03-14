@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BASE_URL, weightClasses } from '../../Constants'
@@ -10,27 +11,19 @@ import { MatchList } from './MatchList';
 // can store list of chosen winners and corresponding round in backend, then check 
 // will store a separate list of actual winners, updated by admin, then will check selection for each user against actual
 
-export const DashboardNew = () => {
+export const AdminDashboard = () => {
   const [ matchList, setMatchList ] = useState([])
-  const [ picks, setPicks ] = useState([])
   
   useEffect(() => {
     axios
-    .get(`${BASE_URL}/picks?user=keenan.mckenzie`)
-    .then(res => console.log(res))
+    .get(`${BASE_URL}/matches`)
+    .then(res => setMatchList(res.data))
     }, [])
-
-    console.log(weightClasses)
 
   return (
     <>
-    <MatchForm setMatchList={setMatchList} matchList={matchList} />
-    {weightClasses.map(weight => 
-      <div key={weight}>
-        <MatchList matchList={matchList} weightClass={weight} />
-      </div>
-      )}
+      <MatchForm setMatchList={setMatchList} matchList={matchList} />
+      <MatchList matchList={matchList} />
     </>
   )
 }
-

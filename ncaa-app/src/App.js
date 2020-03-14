@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { DashboardNew } from './components/Admin/DashboardNew';
+import { AdminDashboard } from './components/Admin/AdminDashboard';
+import { UserDashboard } from './components/User/UserDashboard';
 import { NavBar } from './components/Nav'
 import LoginForm from './components/Login/LoginForm';
 import RegistrationForm from './components/Login/Registration';
@@ -9,14 +10,17 @@ function App() {
   return (
     <div className="App">
       <NavBar />
-      <Route path="/dashboard">
-        <DashboardNew />
+      <Route exact path="/dashboard">
+        <AdminDashboard />
       </Route>
       <Route exact path="/">
         <RegistrationForm />
       </Route>
-      <Route path="/login">
+      <Route exact path="/login">
         <LoginForm />
+      </Route>
+      <Route path="/:userId">
+        <UserDashboard />
       </Route>
     </div>
   );
