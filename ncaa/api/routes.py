@@ -16,8 +16,11 @@ def test():
 @mod.route('/picks', methods=['GET', 'POST'])
 def picks():
     if request.method == 'GET':
+        '''
         json = request.get_json()
         user = json['user']
+        '''
+        user = request.args.get('user')
         results = get_picks(user)
         return jsonify(results)
     else:
@@ -53,9 +56,13 @@ def add_user():
 
 @mod.route('/authorize-user', methods=['GET'])
 def auth_user():
+    '''
     json = request.get_json()
     user_name = json['userName']
     password = json['password']
+    '''
+    user_name = request.args.get('userName')
+    password = request.args.get('password')
     auth = verify_user(user_name, password)
     return auth
 
