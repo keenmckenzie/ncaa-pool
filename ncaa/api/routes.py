@@ -50,6 +50,7 @@ def add_user():
     user_name = json['userName']
     password = json['password']
     new_user = User(user_name, password)
+    new_user.post_user()
     user_data = new_user.get_user()
     return jsonify(user_data)
 
