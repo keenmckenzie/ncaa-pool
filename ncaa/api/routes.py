@@ -88,8 +88,8 @@ def matches():
 def add_match():
     json = request.get_json()
     json_weight = json['weight']
-    json_wrestler_1 = json['wrestler1']
-    json_wrestler_2 = json['wrestler2']
+    json_wrestler_1 = json['wrestler_1']
+    json_wrestler_2 = json['wrestler_2']
     json_round = json['round']
     match = Match(json_weight, json_round, json_wrestler_1, json_wrestler_2)
     commit = match.post_match()
