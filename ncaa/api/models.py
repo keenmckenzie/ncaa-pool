@@ -7,6 +7,19 @@ class User:
         self.user_name = user_name
         self.password = hash_password(password)
 
+    def get_user(self):
+        data = {
+            'user_name': self.user_name
+        }
+        cur = db.connection.cursor()
+        sql = ('select id, userName '
+               'from users '
+               'where userName = %(user_name)s'
+               )
+        cur.execute(sql, data)
+        results = cur.fetchall()
+        return results
+
     def post_user(self):
         cur = db.connection.cursor()
         sql = ('insert into users (userName, password) '
@@ -21,6 +34,29 @@ class User:
             return {"result": "success"}
         except:
             return {"result": "failure"}
+
+    def verify_user(self, password):
+        cur = db.connection.cursor();
+        data = {
+            "userName": self.user_name
+        }
+        query = ('select password, id '
+                 'from users '
+                 'where userName = %(userName)s')
+        cur.execute(query, data)
+        results = cur.fetchall()
+        stored_password = results[0]['password']
+        user_id = results[0]['id']
+        authorized = verify_password(stored_password, password)
+        if authorized:
+            return {
+                "auth": authorized,
+                "userId": user_id
+            }
+        else:
+            return {"auth": authorized}
+
+
 
 class Match:
     def __init__(self, weight='null', round='null', wrestler_1='null', wrestler_2='null'):

@@ -16,8 +16,11 @@ def test():
 @mod.route('/picks', methods=['GET', 'POST'])
 def picks():
     if request.method == 'GET':
+        '''
         json = request.get_json()
         user = json['user']
+        '''
+        user = request.args.get('user')
         results = get_picks(user)
         return jsonify(results)
     else:
@@ -46,26 +49,33 @@ def add_user():
     json = request.get_json()
     user_name = json['userName']
     password = json['password']
-    user = User(user_name, password)
-    user.post_user()
-    auth = verify_user(user_name, password)
-    return auth
+    new_user = User(user_name, password)
+    new_user.post_user()
+    user_data = new_user.get_user()
+    return jsonify(user_data)
 
 @mod.route('/authorize-user', methods=['GET'])
 def auth_user():
+    '''
     json = request.get_json()
     user_name = json['userName']
     password = json['password']
-    auth = verify_user(user_name, password)
+    '''
+    user_name = request.args.get('userName')
+    password = request.args.get('password')
+    user = User(user_name,password)
+    ##auth = verify_user(user_name, password)
+    auth = user.verify_user(password)
     return auth
 
 @mod.route('/userId')
 def userId():
     json = request.get_json()
-    user = json['userName']
-    userId = get_userId(user)
-    return {"id": str(userId)}
-
+    userName = json['userName']
+    user = User(userName, "null")
+    user_data = user.get_user()
+    ##userId = get_userId(user)
+    return jsonify(user_data)
 
 ##
 ## Match Routes
@@ -81,8 +91,8 @@ def matches():
 def add_match():
     json = request.get_json()
     json_weight = json['weight']
-    json_wrestler_1 = json['wrestler1']
-    json_wrestler_2 = json['wrestler2']
+    json_wrestler_1 = json['wrestler_1']
+    json_wrestler_2 = json['wrestler_2']
     json_round = json['round']
     match = Match(json_weight, json_round, json_wrestler_1, json_wrestler_2)
     commit = match.post_match()
