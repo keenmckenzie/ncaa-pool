@@ -49,10 +49,9 @@ def add_user():
     json = request.get_json()
     user_name = json['userName']
     password = json['password']
-    user = User(user_name, password)
-    user.post_user()
-    auth = verify_user(user_name, password)
-    return auth
+    new_user = User(user_name, password)
+    user_data = new_user.get_user()
+    return jsonify(user_data)
 
 @mod.route('/authorize-user', methods=['GET'])
 def auth_user():
@@ -63,16 +62,19 @@ def auth_user():
     '''
     user_name = request.args.get('userName')
     password = request.args.get('password')
-    auth = verify_user(user_name, password)
+    user = User(user_name,password)
+    ##auth = verify_user(user_name, password)
+    auth = user.verify_user(password)
     return auth
 
 @mod.route('/userId')
 def userId():
     json = request.get_json()
-    user = json['userName']
-    userId = get_userId(user)
-    return {"id": str(userId)}
-
+    userName = json['userName']
+    user = User(userName, "null")
+    user_data = user.get_user()
+    ##userId = get_userId(user)
+    return jsonify(user_data)
 
 ##
 ## Match Routes
