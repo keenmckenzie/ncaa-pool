@@ -116,6 +116,26 @@ class Match:
             return {'result': 'failure'}
 
 
+
+class Pick:
+    def __init__(self, user, match_id, pick):
+        self.match_id = match_id
+        self.user = user
+        self.pick = pick
+
+    def post_pick(self):
+        data = {
+            'userId': self.user,
+            'match': self.match_id,
+            'pick': self.pick
+        }
+        cur = db.connection.cursor()
+        sql = ('insert into picks (user_id, match_id, pick) '
+               'values (%(userId)s, %(match)s, %(pick)s )')
+        cur.execute(sql, data)
+        db.connection.commit()
+
+
 def hash_password(password):
     """Hash a password for storing."""
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
